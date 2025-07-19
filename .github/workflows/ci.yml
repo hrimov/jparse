@@ -1,0 +1,35 @@
+name: Linting and Testing
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Install dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y just
+
+      - name: Install dev dependencies
+        run: |
+          just dev-deps
+
+      - name: Run tests
+        run: |
+          just test
+
+      - name: Run linter
+        run: |
+          just lint
+
+      - name: Run formatter
+        run: |
+          just format
