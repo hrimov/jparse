@@ -19,6 +19,14 @@ typedef enum {
 #define IS_PRIMITIVE_JSON_TYPE(type) ((type) <= JSON_BOOLEAN)
 #define IS_STRUCTURED_JSON_TYPE(type) ((type) >= JSON_ARRAY)
 
+#define TRUE_STRING "true"
+#define FALSE_STRING "false"
+#define NULL_STRING "null"
+
+#define TRUE_LENGTH 4
+#define FALSE_LENGTH 5
+#define NULL_LENGTH 4
+
 typedef struct JsonValue JsonValue;
 
 typedef struct {
@@ -67,12 +75,12 @@ typedef struct {
  */
 
 JsonValue* json_parse(const char* src);
-void json_print(const JsonValue* val, FILE* f);
+void json_print(const JsonValue* value, FILE* file);
 
 JsonValue* json_load_file(const char* filename);
-bool json_save_file(const JsonValue* val, const char* filename);
+bool json_save_file(const JsonValue* value, const char* filename);
 
-void json_free(JsonValue* val);
+void json_free(JsonValue* value);
 
 /*
  * Internal API
@@ -83,15 +91,15 @@ typedef struct {
     size_t pos;
 } JsonParser;
 
-JsonValue* parse_value(JsonParser* p);
+JsonValue* parse_value(JsonParser* parser);
 
-void skip_whitespace(JsonParser* p);
-bool match(JsonParser* p, char expected);
-char peek(JsonParser* p);
-bool expect(JsonParser* p, char expected);
-char* parse_string(JsonParser* p);
-double parse_number(JsonParser* p);
-JsonValue* parse_array(JsonParser* p);
-JsonValue* parse_object(JsonParser* p);
+void skip_whitespace(JsonParser* parser);
+bool match(JsonParser* parser, char expected);
+char peek(JsonParser* parser);
+bool expect(JsonParser* parser, char expected);
+char* parse_string(JsonParser* parser);
+double parse_number(JsonParser* parser);
+JsonValue* parse_array(JsonParser* parser);
+JsonValue* parse_object(JsonParser* parser);
 
 #endif  // JPARSE_H

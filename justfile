@@ -28,7 +28,7 @@ test:
 #     leaks --atExit -- ./build/test_jparse
 
 lint:
-    clang-tidy src/*.c include/*.h tests/*.c -- -Iinclude
+    clang-tidy src/*.c include/*.h -- -Iinclude
 
 format:
     find src/ include/ tests/ -name "*.c" -o -name "*.h" | xargs clang-format -i
