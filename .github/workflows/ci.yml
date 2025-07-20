@@ -1,4 +1,4 @@
-name: Linting and Testing
+name: Tests & linters
 
 on:
   push:
@@ -16,11 +16,7 @@ jobs:
       - name: Install dependencies
         run: |
           sudo apt-get update
-          sudo apt-get install -y just
-
-      - name: Install linter & formatter
-        run: |
-          sudo apt-get install -y clang-tidy clang-format
+          sudo apt-get install -y just clang-tidy clang-format
 
       - name: Run tests
         run: |

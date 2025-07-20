@@ -9,11 +9,13 @@ This is done for fun, specifically to get practice with C language (C11).
 - Working with arrays and objects (nested ones as well)
 - File I/O operations
 
-## Build & Test
+## Build, test, lint
 
 ```bash
 just build  # Build library
 just test   # Run test suite
+just lint   # Run lint (requires clang-tidy)
+just format # Run formatter (requires clang-format)
 just clean  # Clean build artifacts
 ```
 
