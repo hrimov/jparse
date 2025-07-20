@@ -18,9 +18,9 @@ jobs:
           sudo apt-get update
           sudo apt-get install -y just
 
-      - name: Install dev dependencies
+      - name: Install linter & formatter
         run: |
-          just dev-deps
+          sudo apt-get install -y clang-tidy clang-format
 
       - name: Run tests
         run: |
