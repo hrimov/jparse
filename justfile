@@ -1,21 +1,17 @@
 default: build
 
-# Build only the library
 build:
     cmake -B build
     cmake --build build
 
-# Build library + tests
 build-tests:
     cmake -B build -DJPARSE_BUILD_TESTS=ON
     cmake --build build
 
-# Build library + examples
 build-examples:
     cmake -B build -DJPARSE_BUILD_EXAMPLES=ON
     cmake --build build
 
-# Build everything (library + tests + examples)
 build-all:
     cmake -B build -DJPARSE_BUILD_TESTS=ON -DJPARSE_BUILD_EXAMPLES=ON
     cmake --build build
@@ -24,10 +20,22 @@ test:
     just build-tests
     ctest --test-dir build --output-on-failure
 
+# TODO: add install dependencies commands for several OS
+
+# TODO: add memleak-check
+# memleak-check:
+#     just build-tests
+#     leaks --atExit -- ./build/test_jparse
+
+lint:
+    clang-tidy src/*.c include/*.h -- -Iinclude
+
+format:
+    find src/ include/ tests/ -name "*.c" -o -name "*.h" | xargs clang-format -i
+
 clean:
     rm -rf build
 
-# Running examples
 run-primitives:
     just build-examples
     ./build/primitives_parsing

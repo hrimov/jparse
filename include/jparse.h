@@ -1,11 +1,10 @@
 #ifndef JPARSE_H
 #define JPARSE_H
 
-#include <stdio.h>
 #include <stdbool.h>
+#include <stdio.h>
 
-typedef enum
-{
+typedef enum {
     // Primitive types
     JSON_STRING = 0,
     JSON_NUMBER = 1,
@@ -20,51 +19,51 @@ typedef enum
 #define IS_PRIMITIVE_JSON_TYPE(type) ((type) <= JSON_BOOLEAN)
 #define IS_STRUCTURED_JSON_TYPE(type) ((type) >= JSON_ARRAY)
 
+#define TRUE_STRING "true"
+#define FALSE_STRING "false"
+#define NULL_STRING "null"
+
+#define TRUE_LENGTH 4
+#define FALSE_LENGTH 5
+#define NULL_LENGTH 4
+
 typedef struct JsonValue JsonValue;
 
-typedef struct
-{
-    char *key;
-    JsonValue *value;
+typedef struct {
+    char* key;
+    JsonValue* value;
 } JsonObjectEntry;
 
-struct JsonValue
-{
+struct JsonValue {
     JsonType type;
-    union
-    {
+    union {
         double number;
-        char *string;
+        char* string;
         int boolean;
-        struct
-        {
-            JsonValue **items;
+        struct {
+            JsonValue** items;
             size_t count;
         } array;
-        struct
-        {
-            JsonObjectEntry *entries;
+        struct {
+            JsonObjectEntry* entries;
             size_t count;
         } object;
     };
 };
 
-typedef struct
-{
+typedef struct {
     double value;
     bool is_integer;
 } JsonNumber;
 
-typedef struct
-{
-    JsonValue **items;
+typedef struct {
+    JsonValue** items;
     size_t length;
 } JsonArray;
 
-typedef struct
-{
-    char **keys;
-    JsonValue **values;
+typedef struct {
+    char** keys;
+    JsonValue** values;
     size_t length;
 } JsonObject;
 
@@ -75,33 +74,32 @@ typedef struct
  * - Free memory
  */
 
-JsonValue *json_parse(const char *src);
-void json_print(const JsonValue *val, FILE *f);
+JsonValue* json_parse(const char* src);
+void json_print(const JsonValue* value, FILE* file);
 
-JsonValue *json_load_file(const char *filename);
-bool json_save_file(const JsonValue *val, const char *filename);
+JsonValue* json_load_file(const char* filename);
+bool json_save_file(const JsonValue* value, const char* filename);
 
-void json_free(JsonValue *val);
+void json_free(JsonValue* value);
 
 /*
  * Internal API
  */
 
-typedef struct
-{
-    const char *src;
+typedef struct {
+    const char* src;
     size_t pos;
 } JsonParser;
 
-JsonValue *parse_value(JsonParser *p);
+JsonValue* parse_value(JsonParser* parser);
 
-void skip_whitespace(JsonParser *p);
-bool match(JsonParser *p, char expected);
-char peek(JsonParser *p);
-bool expect(JsonParser *p, char expected);
-char *parse_string(JsonParser *p);
-double parse_number(JsonParser *p);
-JsonValue *parse_array(JsonParser *p);
-JsonValue *parse_object(JsonParser *p);
+void skip_whitespace(JsonParser* parser);
+bool match(JsonParser* parser, char expected);
+char peek(JsonParser* parser);
+bool expect(JsonParser* parser, char expected);
+char* parse_string(JsonParser* parser);
+double parse_number(JsonParser* parser);
+JsonValue* parse_array(JsonParser* parser);
+JsonValue* parse_object(JsonParser* parser);
 
-#endif // JPARSE_H
+#endif  // JPARSE_H

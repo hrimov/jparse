@@ -1,0 +1,4 @@
+---
+Checks: "readability-*,-clang-analyzer-*"
+# TODO: add more checks
+# Checks: "readability-*,performance-*,modernize-*,bugprone-*,cert-*,clang-analyzer-*"
